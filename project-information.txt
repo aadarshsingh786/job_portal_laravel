@@ -1,0 +1,64 @@
+1)  composer require spatie/laravel-permission
+
+इस command का मतलब है कि आप अपने Laravel project में Spatie Laravel Permission Package install कर रहे हैं। यह package User Roles & Permissions management के लिए सबसे popular package है।
+
+Example
+
+मान लो आपके Chat Application में 3 roles हैं:
+
+Admin
+Moderator
+User
+
+और permissions:
+
+create-user
+delete-user
+send-message
+manage-groups
+
+
+2) composer require barryvdh/laravel-dompdf ka matlab kya hai?
+
+Ye command Laravel project me DomPDF package install karti hai, jisse aap HTML/Blade View ko PDF me convert kar sakte ho. Ye Laravel ke liye ek popular PDF wrapper package hai.
+
+Installation
+composer require barryvdh/laravel-dompdf
+
+Isse package aur uski required PDF libraries install ho jati hain.
+
+Real-Life Use Cases
+1. Invoice PDF
+Invoice #1001
+Customer: Aadarsh Singh
+Amount: ₹5,000
+
+Button click karte hi PDF download.
+
+2. CRM Project
+Customer Report PDF
+Lead Report PDF
+Sales Report PDF
+3. ERP Project
+Salary Slip PDF
+Purchase Order PDF
+Employee Report PDF
+4. Chat Application
+Chat Export PDF
+Conversation History PDF
+Example
+Route
+Route::get('/invoice-pdf', [InvoiceController::class, 'downloadPdf']);
+
+
+3) composer require laravel/sanctum
+composer require laravel/sanctum ka matlab kya hai?
+
+Ye command Laravel project me Laravel Sanctum package install karti hai.
+
+Laravel Sanctum ka use API Authentication ke liye hota hai. Isse aap:
+
+REST APIs ko secure kar sakte ho
+Mobile App Authentication kar sakte ho
+React, Vue, Next.js, Flutter apps ko Laravel API se connect kar sakte ho
+API Tokens generate kar sakte ho
