@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminMessageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployerDashboardController;
@@ -20,6 +22,43 @@ Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
 
 // Authentication Routes
 Auth::routes(['verify' => true]);
+
+// Admin Authentication (separate session)
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+});
+
+// Admin Routes (own session, must stay OUTSIDE the user auth group)
+Route::middleware(['admin.auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/users', [AdminDashboardController::class, 'users'])->name('users');
+    Route::get('/users/{user}', [AdminDashboardController::class, 'userShow'])->name('users.show');
+    Route::put('/users/{user}/role', [AdminDashboardController::class, 'updateRole'])->name('users.role');
+    Route::delete('/users/{user}', [AdminDashboardController::class, 'deleteUser'])->name('users.delete');
+    
+    Route::get('/jobs', [AdminDashboardController::class, 'allJobs'])->name('jobs');
+    Route::get('/jobs/create', [AdminDashboardController::class, 'createJob'])->name('jobs.create');
+    Route::post('/jobs', [AdminDashboardController::class, 'storeJob'])->name('jobs.store');
+    Route::get('/jobs/{job}/edit', [AdminDashboardController::class, 'editJob'])->name('jobs.edit');
+    Route::put('/jobs/{job}', [AdminDashboardController::class, 'updateJob'])->name('jobs.update');
+    Route::put('/jobs/{job}/feature', [AdminDashboardController::class, 'featureJob'])->name('jobs.feature');
+    Route::put('/jobs/{job}/toggle-status', [AdminDashboardController::class, 'toggleJobStatus'])->name('jobs.toggle-status');
+
+    Route::get('/applications', [AdminDashboardController::class, 'applications'])->name('applications');
+    Route::put('/applications/{application}/status', [AdminDashboardController::class, 'updateApplicationStatus'])->name('applications.update-status');
+    
+    Route::get('/analytics', [AdminDashboardController::class, 'analytics'])->name('analytics');
+    Route::get('/reports', [AdminDashboardController::class, 'reports'])->name('reports');
+    Route::get('/settings', [AdminDashboardController::class, 'settings'])->name('settings');
+    Route::put('/settings', [AdminDashboardController::class, 'updateSettings'])->name('settings.update');
+
+    Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/create', [AdminMessageController::class, 'create'])->name('messages.create');
+    Route::post('/messages', [AdminMessageController::class, 'store'])->name('messages.store');
+    Route::get('/messages/{message}', [AdminMessageController::class, 'show'])->name('messages.show');
+});
 
 // Authenticated Routes
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -87,6 +126,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [EmployerDashboardController::class, 'index'])->name('dashboard');
         Route::get('/jobs', [EmployerDashboardController::class, 'jobs'])->name('jobs');
         Route::get('/applications', [EmployerDashboardController::class, 'applications'])->name('applications');
+        Route::put('/applications/{application}/status', [EmployerDashboardController::class, 'updateApplicationStatus'])->name('applications.update-status');
         Route::get('/analytics', [EmployerDashboardController::class, 'analytics'])->name('analytics');
         
         // Job CRUD
@@ -95,24 +135,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
         Route::put('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
         Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
-    });
-
-    // Admin Routes
-    Route::middleware(['check.role:admin'])->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-        Route::get('/users', [AdminDashboardController::class, 'users'])->name('users');
-        Route::get('/users/{user}', [AdminDashboardController::class, 'userShow'])->name('users.show');
-        Route::put('/users/{user}/role', [AdminDashboardController::class, 'updateRole'])->name('users.role');
-        Route::delete('/users/{user}', [AdminDashboardController::class, 'deleteUser'])->name('users.delete');
-        
-        Route::get('/jobs', [AdminDashboardController::class, 'allJobs'])->name('jobs');
-        Route::put('/jobs/{job}/feature', [AdminDashboardController::class, 'featureJob'])->name('jobs.feature');
-        Route::put('/jobs/{job}/toggle-status', [AdminDashboardController::class, 'toggleJobStatus'])->name('jobs.toggle-status');
-        
-        Route::get('/analytics', [AdminDashboardController::class, 'analytics'])->name('analytics');
-        Route::get('/reports', [AdminDashboardController::class, 'reports'])->name('reports');
-        Route::get('/settings', [AdminDashboardController::class, 'settings'])->name('settings');
-        Route::put('/settings', [AdminDashboardController::class, 'updateSettings'])->name('settings.update');
     });
 });
 

@@ -19,6 +19,7 @@ class User extends Authenticatable
         'phone', 
         'profile_image',
         'bio', 
+        'resume',
         'company_name', 
         'company_website',
         'email_verified_at',

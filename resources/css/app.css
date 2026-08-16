@@ -14,15 +14,18 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Scroll reveal animation */
-.reveal {
+/* Scroll reveal animation - progressive enhancement:
+   Content is visible by default. Only when JS is confirmed running
+   (html.js added by inline script) does .reveal start hidden, so the
+   page never appears blank if scripts fail to load. */
+html.js .reveal {
     opacity: 0;
     transform: translateY(24px);
     transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
 }
 
-.reveal.reveal-visible {
+html.js .reveal.reveal-visible {
     opacity: 1;
     transform: translateY(0);
 }

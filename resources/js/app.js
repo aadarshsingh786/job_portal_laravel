@@ -101,18 +101,8 @@ function showToast(message, type = 'info') {
 }
 
 // Live search with debounce
-let searchTimeout;
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.querySelector('input[name="search"]');
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                this.closest('form').submit();
-            }, 500);
-        });
-    }
-});
+// Removed: auto-submitting the search form on input causes unexpected redirects.
+// Search now only runs when the user explicitly submits the form.
 
 // Dynamic job type filter
 document.addEventListener('DOMContentLoaded', function() {

@@ -159,13 +159,13 @@ class JobController extends Controller
 
     public function edit(Job $job)
     {
-        $this->authorize('update', $job);
+        $this->authorizeJobAccess($job);
         return view('jobs.edit', compact('job'));
     }
 
     public function update(Request $request, Job $job)
     {
-        $this->authorize('update', $job);
+        $this->authorizeJobAccess($job);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -193,7 +193,7 @@ class JobController extends Controller
 
     public function destroy(Job $job)
     {
-        $this->authorize('delete', $job);
+        $this->authorizeJobAccess($job);
         $job->delete();
 
         return back()->with('success', 'Job deleted successfully!');
@@ -209,5 +209,12 @@ class JobController extends Controller
     {
         Auth::user()->savedJobs()->detach($job->id);
         return response()->json(['success' => true, 'message' => 'Job unsaved!']);
+    }
+
+    protected function authorizeJobAccess(Job $job)
+    {
+        if (!Auth::user()->isAdmin() && $job->employer_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
     }
 }

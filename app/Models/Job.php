@@ -14,6 +14,7 @@ class Job extends Model
         'title', 
         'description', 
         'requirements', 
+        'about_company',
         'benefits',
         'location', 
         'salary_min', 
@@ -63,6 +64,20 @@ class Job extends Model
             return "Up to $" . number_format($this->salary_max);
         }
         return "Not specified";
+    }
+
+    public function getDisplayCompanyAttribute()
+    {
+        $employer = $this->employer;
+        if (!$employer) {
+            return null;
+        }
+
+        if ($employer->role === 'admin') {
+            return $employer->company_name ?: null;
+        }
+
+        return $employer->company_name ?? $employer->name;
     }
 
     public function scopeActive($query)

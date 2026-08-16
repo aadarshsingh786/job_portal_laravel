@@ -11,6 +11,13 @@
         <p class="text-gray-500">Enter your credentials to access your dashboard</p>
     </div>
 
+    @if (session('status'))
+        <div class="mb-6 rounded-xl bg-green-50 border border-green-200 p-4 flex items-start gap-3">
+            <i class="fas fa-check-circle text-green-500 mt-0.5"></i>
+            <div class="text-sm text-green-700">{{ session('status') }}</div>
+        </div>
+    @endif
+
     @if ($errors->any())
         <div class="mb-6 rounded-xl bg-red-50 border border-red-200 p-4" x-show="showErrors" x-transition x-cloak>
             <div class="flex items-start gap-3">

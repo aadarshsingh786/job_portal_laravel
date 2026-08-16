@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Job Portal') - Find Your Dream Job</title>
+
+    <script>document.documentElement.classList.add('js');</script>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -64,7 +66,7 @@
                         @auth
                             <!-- Notifications -->
                             <div class="relative hidden sm:block">
-                                <button @click="notifopen = !notifopen" class="text-gray-600 hover:text-blue-600 transition duration-300 relative">
+                                <button @click="notifOpen = !notifOpen" class="text-gray-600 hover:text-blue-600 transition duration-300 relative">
                                     <i class="fas fa-bell text-xl"></i>
                                     @auth
                                         @if(auth()->user()->unreadNotifications()->count() > 0)
@@ -77,15 +79,19 @@
                                 
                                 <!-- Notification Dropdown -->
                                 @auth
-                                    <div x-show="notifopen" @click.away="notifopen = false" 
+                                    <div x-show="notifOpen" @click.away="notifOpen = false" 
                                         class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-96 overflow-y-auto">
                                         <div class="p-4 border-b border-gray-200">
                                             <div class="flex justify-between items-center">
                                                 <h3 class="font-semibold text-gray-800">Notifications</h3>
                                                 @if(auth()->user()->unreadNotifications()->count() > 0)
-                                                    <a href="{{ route('notifications.read-all') }}" class="text-sm text-blue-600 hover:text-blue-700">
-                                                        Mark all as read
-                                                    </a>
+                                                    <form method="POST" action="{{ route('notifications.read-all') }}" class="inline">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="text-sm text-blue-600 hover:text-blue-700">
+                                                            Mark all as read
+                                                        </button>
+                                                    </form>
                                                 @endif
                                             </div>
                                         </div>

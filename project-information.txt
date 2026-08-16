@@ -1,3 +1,9 @@
+admin login details Url: http://127.0.0.1:8000/admin/dashboard
+Email : admin@jobportal.com
+Pass : password
+
+Employer dashboard : http://127.0.0.1:8000/employer/dashboard
+    
 1)  composer require spatie/laravel-permission
 
 इस command का मतलब है कि आप अपने Laravel project में Spatie Laravel Permission Package install कर रहे हैं। यह package User Roles & Permissions management के लिए सबसे popular package है।

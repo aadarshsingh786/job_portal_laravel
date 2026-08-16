@@ -6,6 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'JobPortal')</title>
 
+    <script>document.documentElement.classList.add('js');</script>
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -21,6 +23,38 @@
     @stack('styles')
 </head>
 <body class="font-sans antialiased bg-gray-50">
+
+<!-- Top Navbar -->
+<nav class="bg-white/95 backdrop-blur border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <a href="{{ route('home') }}" class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center shadow-md">
+                        <i class="fas fa-briefcase text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                        JobPortal
+                    </span>
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="{{ route('jobs.index') }}" class="text-gray-700 hover:text-blue-600 transition duration-300">
+                    <i class="fas fa-search mr-1"></i> Browse Jobs
+                </a>
+                <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600 transition duration-300 px-3 py-2 rounded-lg hover:bg-gray-100 {{ request()->routeIs('login') ? 'text-blue-600' : '' }}">
+                    <i class="fas fa-sign-in-alt mr-1"></i> Login
+                </a>
+                <a href="{{ route('register') }}" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-4 py-2 rounded-lg hover:shadow-lg transition duration-300 {{ request()->routeIs('register') ? 'ring-2 ring-blue-400' : '' }}">
+                    <i class="fas fa-user-plus mr-1"></i> Register
+                </a>
+            </div>
+            <a href="{{ route('register') }}" class="md:hidden bg-gradient-to-r from-blue-600 to-blue-800 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-1">
+                <i class="fas fa-user-plus"></i> Register
+            </a>
+        </div>
+    </div>
+</nav>
 
 <div class="min-h-screen lg:grid lg:grid-cols-2">
 

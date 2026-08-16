@@ -52,6 +52,22 @@
                     @enderror
                 </div>
 
+                <!-- Phone Number -->
+                <div class="mb-4">
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">
+                        <i class="fas fa-phone-alt mr-2 text-blue-600"></i>Phone Number
+                    </label>
+                    <input id="phone" type="tel" 
+                           class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 @error('phone') border-red-500 @enderror" 
+                           name="phone" value="{{ old('phone') }}" 
+                           placeholder="+91 98765 43210" pattern="[0-9+\-\s()]*"
+                           maxlength="20">
+                    @error('phone')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                    <p class="text-xs text-gray-500 mt-1"><i class="fas fa-info-circle mr-1 text-blue-400"></i>Enter a valid contact number — recruiters may reach you here.</p>
+                </div>
+
                 <!-- Password -->
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
@@ -170,6 +186,7 @@
         </div>
     </div>
 </div>
+@endsection
 
 @push('scripts')
 <script>

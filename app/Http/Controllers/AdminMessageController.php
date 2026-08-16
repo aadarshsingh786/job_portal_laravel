@@ -8,13 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class MessageController extends Controller
+class AdminMessageController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $user = Auth::user();
@@ -34,22 +29,16 @@ class MessageController extends Controller
             })
             ->sortByDesc('created_at');
 
-        return view('messages.index', compact('conversations'));
+        return view('admin.messages.index', compact('conversations'));
     }
 
     public function create(Request $request)
     {
-        $user = Auth::user();
         $recipientId = $request->query('to');
         $recipient = $recipientId ? User::find($recipientId) : null;
-        $jobId = $request->query('job');
-        $job = $jobId ? \App\Models\Job::find($jobId) : null;
+        $job = $request->query('job') ? \App\Models\Job::find($request->query('job')) : null;
 
-        $users = User::where('id', '!=', $user->id)
-            ->orderBy('name')
-            ->get();
-
-        return view('messages.create', compact('users', 'recipient', 'job'));
+        return view('admin.messages.create', compact('recipient', 'job'));
     }
 
     public function store(Request $request)
@@ -77,7 +66,7 @@ class MessageController extends Controller
             'link' => route('messages.show', $message),
         ]);
 
-        return redirect()->route('messages.index')
+        return redirect()->route('admin.messages.index')
             ->with('success', 'Message sent successfully!');
     }
 
@@ -102,20 +91,6 @@ class MessageController extends Controller
         $otherUserId = $message->sender_id === $user->id ? $message->receiver_id : $message->sender_id;
         $otherUser = User::find($otherUserId);
 
-        return view('messages.show', compact('conversation', 'otherUser'));
-    }
-
-    public function markAsRead(Message $message)
-    {
-        if ($message->receiver_id !== Auth::id()) {
-            abort(403);
-        }
-
-        $message->update([
-            'is_read' => true,
-            'read_at' => now(),
-        ]);
-
-        return back()->with('success', 'Message marked as read.');
+        return view('admin.messages.show', compact('conversation', 'otherUser'));
     }
 }
