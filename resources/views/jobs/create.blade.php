@@ -94,6 +94,17 @@
             </div>
 
             <div class="mb-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-building text-blue-500 mr-1"></i> About Company
+                    <span class="text-xs text-gray-400 font-normal">(optional)</span>
+                </label>
+                <textarea name="about_company" rows="4" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 @error('about_company') border-red-500 @enderror" placeholder="Tell applicants about your company, culture, mission and what it's like to work here...">{{ old('about_company') }}</textarea>
+                <p class="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
+                    <i class="fas fa-info-circle"></i> This information is shown to job seekers on the job posting.
+                </p>
+            </div>
+
+            <div class="mb-4">
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Benefits</label>
                 <textarea name="benefits" rows="3" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Comma separated benefits...">{{ old('benefits') }}</textarea>
             </div>

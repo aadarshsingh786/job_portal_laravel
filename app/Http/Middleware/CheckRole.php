@@ -15,7 +15,7 @@ class CheckRole
         }
 
         if (!in_array(Auth::user()->role, $roles)) {
-            abort(403, 'Unauthorized access.');
+            return redirect()->route('home')->with('error', 'This page is only available to ' . implode(' or ', $roles) . ' accounts.');
         }
 
         return $next($request);

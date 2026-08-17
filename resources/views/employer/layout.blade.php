@@ -57,6 +57,7 @@
                     ['route' => 'employer.jobs', 'icon' => 'fa-briefcase', 'label' => 'My Jobs'],
                     ['route' => 'employer.jobs.create', 'icon' => 'fa-plus', 'label' => 'Post Job'],
                     ['route' => 'employer.analytics', 'icon' => 'fa-chart-line', 'label' => 'Analytics'],
+                    ['route' => 'messages.index', 'icon' => 'fa-envelope', 'label' => 'Messages'],
                 ];
                 $pendingCount = \App\Models\JobApplication::whereHas('job', fn($q) => $q->where('employer_id', auth()->id()))->where('status', 'pending')->count();
             @endphp

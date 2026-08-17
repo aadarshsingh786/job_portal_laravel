@@ -102,6 +102,17 @@ class MessageController extends Controller
         $otherUserId = $message->sender_id === $user->id ? $message->receiver_id : $message->sender_id;
         $otherUser = User::find($otherUserId);
 
+        Message::where('sender_id', $otherUserId)
+            ->where('receiver_id', $user->id)
+            ->where('is_read', false)
+            ->update(['is_read' => true, 'read_at' => now()]);
+
+        Notification::where('user_id', $user->id)
+            ->where('type', 'message')
+            ->where('is_read', false)
+            ->where('link', 'like', '%' . $message->id)
+            ->update(['is_read' => true, 'read_at' => now()]);
+
         return view('messages.show', compact('conversation', 'otherUser'));
     }
 

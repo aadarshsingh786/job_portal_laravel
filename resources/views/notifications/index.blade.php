@@ -50,7 +50,7 @@
                             <span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i>{{ $notification->created_at->diffForHumans() }}</span>
                             <div class="flex items-center gap-3">
                                 @if($notification->link)
-                                    <a href="{{ $notification->link }}" class="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                                    <a href="{{ route('notifications.open', $notification) }}" class="text-sm text-blue-600 hover:text-blue-700 font-medium">
                                         View <i class="fas fa-arrow-right ml-0.5"></i>
                                     </a>
                                 @endif

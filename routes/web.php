@@ -118,11 +118,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('notifications')->name('notifications.')->group(function () {
         Route::get('/', [NotificationController::class, 'index'])->name('index');
         Route::put('/{notification}/read', [NotificationController::class, 'markAsRead'])->name('read');
+        Route::get('/{notification}/open', [NotificationController::class, 'open'])->name('open');
         Route::put('/read-all', [NotificationController::class, 'markAllAsRead'])->name('read-all');
     });
 
     // Employer Routes
     Route::middleware(['check.role:employer,admin'])->prefix('employer')->name('employer.')->group(function () {
+        Route::get('/', fn() => redirect()->route('employer.dashboard'))->name('home');
         Route::get('/dashboard', [EmployerDashboardController::class, 'index'])->name('dashboard');
         Route::get('/jobs', [EmployerDashboardController::class, 'jobs'])->name('jobs');
         Route::get('/applications', [EmployerDashboardController::class, 'applications'])->name('applications');

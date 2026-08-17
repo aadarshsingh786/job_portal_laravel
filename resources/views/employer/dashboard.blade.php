@@ -133,6 +133,17 @@
                 </div>
                 <i class="fas fa-arrow-right ml-auto text-green-600"></i>
             </a>
+            <a href="{{ route('messages.create') }}"
+               class="flex items-center gap-4 p-4 bg-amber-50 rounded-2xl hover:bg-amber-100 transition">
+                <div class="w-11 h-11 rounded-xl bg-amber-600 text-white flex items-center justify-center">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-800">Send Message</p>
+                    <p class="text-sm text-gray-500">Message applicants or the admin</p>
+                </div>
+                <i class="fas fa-arrow-right ml-auto text-amber-600"></i>
+            </a>
         </div>
     </div>
 </div>

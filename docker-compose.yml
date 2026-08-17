@@ -1,0 +1,56 @@
+# ============================================================
+# Docker Compose for Job Portal (Laravel 13 + MySQL)
+# App container bundles Nginx + PHP-FPM via Supervisor
+# ============================================================
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: job-portal-app
+    container_name: job-portal-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    ports:
+      - "${APP_PORT:-8080}:80"
+    environment:
+      APP_ENV: ${APP_ENV:-production}
+      APP_DEBUG: ${APP_DEBUG:-false}
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE:-job_portal}
+      DB_USERNAME: ${DB_USERNAME:-job_portal}
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - job-portal-net
+
+  db:
+    image: mysql:8.4
+    container_name: job-portal-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-job_portal}
+      MYSQL_USER: ${DB_USERNAME:-job_portal}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootsecret}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - job-portal-net
+
+volumes:
+  db_data:
+
+networks:
+  job-portal-net:
+    driver: bridge

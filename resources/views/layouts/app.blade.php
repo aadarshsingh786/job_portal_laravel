@@ -97,7 +97,7 @@
                                         </div>
                                         <div class="divide-y divide-gray-100">
                                             @forelse(auth()->user()->notifications()->latest()->limit(5)->get() as $notification)
-                                                <a href="{{ $notification->link ?? '#' }}" class="block p-4 hover:bg-gray-50 transition duration-300">
+                                                <a href="{{ route('notifications.open', $notification) }}" class="block p-4 hover:bg-gray-50 transition duration-300">
                                                     <div class="flex items-start gap-3">
                                                         <div class="flex-shrink-0">
                                                             @if(!$notification->is_read)

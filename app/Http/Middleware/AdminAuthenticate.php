@@ -15,7 +15,11 @@ class AdminAuthenticate
         }
 
         if (!Auth::user()->isAdmin()) {
-            abort(403, 'Admin access only.');
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('admin.login');
         }
 
         return $next($request);

@@ -70,6 +70,24 @@
                 </details>
             @endif
 
+            <!-- Resume -->
+            <div class="mt-4 flex flex-col sm:flex-row gap-3">
+                @if($application->resume_path)
+                    <a href="{{ asset('storage/' . $application->resume_path) }}" target="_blank"
+                       class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-50 text-red-700 text-sm font-semibold hover:bg-red-100 transition">
+                        <i class="fas fa-file-pdf text-lg"></i> View Resume (PDF)
+                    </a>
+                    <a href="{{ asset('storage/' . $application->resume_path) }}" download
+                       class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 text-gray-700 text-sm font-semibold hover:bg-gray-100 transition">
+                        <i class="fas fa-download text-lg"></i> Download
+                    </a>
+                @else
+                    <span class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 text-gray-400 text-sm font-medium">
+                        <i class="fas fa-file-pdf text-lg"></i> No resume uploaded
+                    </span>
+                @endif
+            </div>
+
             <div class="mt-5 pt-5 border-t border-gray-100 flex flex-wrap items-center gap-3">
                 <form method="POST" action="{{ route('employer.applications.update-status', $application) }}" class="flex flex-wrap items-center gap-2">
                     @csrf
@@ -86,6 +104,10 @@
                     </button>
                 </form>
                 <div class="flex gap-2 ml-auto">
+                    <a href="{{ route('messages.create', ['to' => $application->user_id, 'job' => $application->job_id]) }}"
+                       class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">
+                        <i class="fas fa-envelope"></i> Message
+                    </a>
                     <form method="POST" action="{{ route('employer.applications.update-status', $application) }}">
                         @csrf
                         @method('PUT')
