@@ -1,0 +1,49 @@
+# Dependencies
+/node_modules
+/vendor
+
+# Build artifacts (rebuilt inside Docker)
+/public/build
+/public/hot
+
+# Environment & local files
+.env
+.env.*
+!.env.example
+
+# Logs & cache
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/testing
+/storage/debugbar
+!storage/logs/.gitignore
+!storage/framework/cache/.gitignore
+!storage/framework/sessions/.gitignore
+!storage/framework/views/.gitignore
+
+# VCS & IDE
+.git
+.gitignore
+.github
+.idea
+.vscode
+*.md
+!README.md
+
+# Docker (don't copy docker context into itself unnecessarily)
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Misc
+.phpunit.result.cache
+*.log
+.docker
+node_modules
+npm-debug.log*
+yarn-error.log*
+Thumbs.db
+.DS_Store
+tatus
